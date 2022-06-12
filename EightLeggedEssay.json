@@ -1,0 +1,14 @@
+{
+  "RootUrl": "http://localhost:8848/",
+  "OutputDirectory": "docs",
+  "BuildScript": "build-EightLeggedEssay.ps1",
+  "ContentDirectory": "content",
+  "SourceDirectory": "source",
+  "ThemeDirectory": "theme",
+  "UserConfiguration": {
+    "CacheDirectory": "cached"
+  },
+  "Commands":{
+    "new":"new.ps1"
+  }
+}

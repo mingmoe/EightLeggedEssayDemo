@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> Hello World! </title>
+
+    </head>
+    <body>
+
+        <div>
+        {{~ for page in  Paginations.Posters ~}}
+            <a href="{{ page.ExtendedData.URL }}">{{ page.Title }}</a>
+            <p>{{ page.CreateTime }}</p>
+            <hr>
+        {{~ end ~}}
+        </div>
+
+        <h1>Page {{ Paginations.CurrentPageNumber }}</h1>
+        <h1>Total Posters:{{ Paginations.PosterCount }}</h1>
+
+        {{ if NextPageUrl }}
+        <a href="{{ NextPageUrl }}">next page</a>
+        {{ end }}
+        {{ if PreviousPageUrl }}
+        <a href="{{ PreviousPageUrl }}">previous page</a>
+        {{ end }}
+    </body>
+</html>
+

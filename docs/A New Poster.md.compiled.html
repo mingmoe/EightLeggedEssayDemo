@@ -1,0 +1,216 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Your First Poster!</title>
+
+    </head>
+    <body>
+        <div>
+            <h1>Your First Poster!</h1>
+            <p>created at:03 Jun 2022</p>
+            <hr>
+        </div>
+        
+        <div>
+            <blockquote>
+            </blockquote>
+            <p>Welcome to Eight Legged Essay.</p>
+            <p>This a blog framework that powered by the PowerShell.</p>
+            <p>You can write the build script yourself to control the whole site!</p>
+            <h3>Install</h3>
+            <p>The Eight Legged Essay isn't stable,so we don't provide binary file.
+            You need build it by yourself.</p>
+            <p>To use Eight Legged Essay,you need .net 6 environemtn.</p>
+            <p>execute:</p>
+            <pre><code class="language-shell">&gt; dotnet run -- arguments here...
+            </code></pre>
+            <p>You can also add the executable file to the PATH to use it everywhere.</p>
+            <h3>Basic Usgae</h3>
+            <p>Use <code>EightLeggedEssay --help</code> to get help.</p>
+            <p>First,new a site:</p>
+            <pre><code class="language-shell">&gt; EightLeggedEssay.exe --new EieDemo
+            
+            &gt; cd EieDemo
+            </code></pre>
+            <p>This will create a new empty site.</p>
+            <p>But it has a simple command to use:</p>
+            <pre><code class="language-shell">&gt; EightLeggedEssay.exe --run new -- HelloWorld.md
+            </code></pre>
+            <p>This will create a new poster in your content directory.</p>
+            <p>Open <code>content/HelloWorld.md</code>:</p>
+            <pre><code class="language-markdown">&lt;!--INFOS--
+            {
+              &quot;CreateTime&quot;: &quot;2022-06-12T13:35:06.7416156+08:00&quot;,
+              &quot;Title&quot;: null
+            }
+            --INFOS--&gt;
+            
+            #Hello World!
+            
+            
+            </code></pre>
+            <p>In fact, this command means:call <code>new</code> command with argument <code>HelloWorld.md</code></p>
+            <p>Where is the <code>new</code> command? Good question:the <code>new</code> command is in the <code>new.ps</code>,and we tell EightLeggedEssay the command by configuration file.</p>
+            <p>Open <code>EightLeggedEssay.json</code>,it will likes:</p>
+            <pre><code>{
+              &quot;RootUrl&quot;: &quot;&quot;,
+              &quot;OutputDirectory&quot;: &quot;site&quot;,
+              &quot;BuildScript&quot;: &quot;build-EightLeggedEssay.ps1&quot;,
+              &quot;ContentDirectory&quot;: &quot;content&quot;,
+              &quot;SourceDirectory&quot;: &quot;source&quot;,
+              &quot;ThemeDirectory&quot;: &quot;theme&quot;,
+              &quot;UserConfiguration&quot;: {},
+              &quot;Commands&quot;: {
+                &quot;new&quot;: &quot;new.ps1&quot;
+              }
+            }
+            </code></pre>
+            <p>Ah, the <code>new</code> command is in the <code>Commands</code>!</p>
+            <p>And out argument will be sent to the <code>new.ps</code> file.</p>
+            <p>In other way,there is a <code>build-EightLeggedEssay.ps1</code> file.If not any commands to passed, EightLeggedEssay will execute it without any arguments.</p>
+            <p>There is also a repl mode to execute command manually!</p>
+            <h3>Cmdlets</h3>
+            <p>EightLeggedEssay provided some useful cmdlets for you.</p>
+            <p>The simply list(may not be complete):</p>
+            <ul>
+            <li>System Utilities:</li>
+            <li>
+            <ul>
+            <li>Get-EleVariable</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Start-HttpServer</li>
+            </ul>
+            </li>
+            <li>Thread Manage:</li>
+            <li>
+            <ul>
+            <li>New-ThreadJobManager</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Start-ThreadJob</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Wait-ThreadJob</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Invoke-ParallelScriptBlock</li>
+            </ul>
+            </li>
+            <li>Markdown:</li>
+            <li>
+            <ul>
+            <li>Convert-Markdown</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Convert-MarkdownPoster</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Convert-MarkdownPosterHelper</li>
+            </ul>
+            </li>
+            <li>Template Engine:</li>
+            <li>
+            <ul>
+            <li>Convert-ScribanTemplate</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Get-ScribanTable</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Convert-Scriban</li>
+            </ul>
+            </li>
+            <li>File System Watcher:</li>
+            <li>
+            <ul>
+            <li>New-FileSystemWatcher</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Set-FileSystemWatcherSettings</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Start-FileSystemWatcher</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Stop-FileSystemWatcher</li>
+            </ul>
+            </li>
+            <li>Rss:</li>
+            <li>
+            <ul>
+            <li>New-Rss</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Add-RssPoster</li>
+            </ul>
+            </li>
+            <li>Other utilities:</li>
+            <li>
+            <ul>
+            <li>Convert-URL</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>ConvertTo-ThreadSafeHashtable</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>ConvertTo-RedirectPath</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Convert-Paginations</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Get-NextPageHelper</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Get-PreviousPageHelper</li>
+            </ul>
+            </li>
+            <li>
+            <ul>
+            <li>Get-CurrentPageHelper</li>
+            </ul>
+            </li>
+            </ul>
+            <p>Documentation is under construction...</p>
+
+        </div>
+    </body>
+</html>
+
+
