@@ -1,5 +1,5 @@
 {
-  "RootUrl": "http://localhost:8848/",
+  "RootUrl": "https://blog.kawayi.moe/EightLeggedEssayDemo/",
   "OutputDirectory": "docs",
   "BuildScript": "build-EightLeggedEssay.ps1",
   "ContentDirectory": "content",
