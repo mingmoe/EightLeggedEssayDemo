@@ -110,7 +110,7 @@ New-FileSystemWatcher -Path (Get-Item("./" + $config.ContentDirectory)).ToString
 New-FileSystemWatcher -Path (Get-Item("./" + $config.ThemeDirectory)).ToString() | Set-FileSystemWatcherSettings -OnChanged | Start-FileSystemWatcher
 
 while($true){
-    $e = Wait-Event -SourceIdentifier "FileSystemWarcher.OnChanged"
+    $e = Wait-Event -SourceIdentifier "FileSystemWatcher.OnChanged"
 
     CompilePosters([ref] $pages)
     CompileIndex([ref] $pages)
