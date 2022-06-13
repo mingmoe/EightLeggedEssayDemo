@@ -91,6 +91,8 @@ The simply list(may not be complete):
  - System Utilities:
  - - Get-EleVariable
  - - Start-HttpServer
+ - - Set-ProcessVariable
+ - - Get-ProcessVariable
  - Thread Manage:
  - - New-ThreadJobManager
  - - Start-ThreadJob

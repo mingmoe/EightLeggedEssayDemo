@@ -3,6 +3,13 @@
 # 读取配置文件
 $config = Get-EleVariable Configuration | ConvertFrom-Json
 
+# we work on the local host
+if(-not([string]::IsNullOrEmpty((Get-EleVariable ServerPath)))){
+    $config.RootUrl = "http://localhost:8848/"
+    Write-Host "local server is enabled! ignore server path"
+    Write-Host "to release the site, rexecute without --server"
+}
+
 $CACHE_DIR = $config.UserConfiguration.CacheDirectory
 
 # 创建缓存目录
@@ -51,11 +58,10 @@ function Get-PreviousPage{
 # compile poster.html
 # $posterOut = @{}
 function CompilePosters {
-     param(
-        [Parameter(Mandatory = $true,Position = 0)][ref][AllowNull()] $pages
-     )
      $output = Convert-MarkdownPosterHelper -Path $config.ContentDirectory -OutPath $CACHE_DIR | Sort-Object -Property CreateTime -Descending 
-     $pages.Value = Convert-Paginations -PostersPerPage 4 -Posters $output
+     $pages = Convert-Paginations -PostersPerPage 4 -Posters $output
+
+     $pages | Set-ProcessVariable "Paginations"
 
      foreach($page in $output){
         $table = @{
@@ -78,9 +84,8 @@ function CompilePosters {
 
 # compile index.html
 function CompileIndex {
-    param(
-        [Parameter(Mandatory = $true,Position = 0)][ref][AllowNull()] $pages
-    )
+
+    $pages = Get-ProcessVariable "Paginations"
 
     foreach($page in $pages.Value){
         $table = @{
@@ -100,20 +105,23 @@ function CompileIndex {
     }
 }
 
-CompilePosters([ref] $pages)
-CompileIndex([ref] $pages)
+CompilePosters
+CompileIndex
 
-Start-HttpServer $config.OutputDirectory
-
+# start server and
 # watch file system
-New-FileSystemWatcher -Path (Get-Item("./" + $config.ContentDirectory)).ToString() | Set-FileSystemWatcherSettings -OnChanged | Start-FileSystemWatcher
-New-FileSystemWatcher -Path (Get-Item("./" + $config.ThemeDirectory)).ToString() | Set-FileSystemWatcherSettings -OnChanged | Start-FileSystemWatcher
+if(-not([string]::IsNullOrEmpty((Get-EleVariable ServerPath)))){
+    Start-HttpServer $config.OutputDirectory
 
-while($true){
-    $e = Wait-Event -SourceIdentifier "FileSystemWatcher.OnChanged"
+    New-FileSystemWatcher -Path (Get-Item("./" + $config.ContentDirectory)).ToString() | Set-FileSystemWatcherSettings -OnChanged | Start-FileSystemWatcher
+    New-FileSystemWatcher -Path (Get-Item("./" + $config.ThemeDirectory)).ToString() | Set-FileSystemWatcherSettings -OnChanged | Start-FileSystemWatcher
 
-    CompilePosters([ref] $pages)
-    CompileIndex([ref] $pages)
+    while($true){
+        $e = Wait-Event -SourceIdentifier "FileSystemWatcher.OnChanged"
 
-    $e | Remove-Event
+        CompilePosters
+        CompileIndex
+
+        $e | Remove-Event
+    }
 }
